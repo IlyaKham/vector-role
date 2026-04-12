@@ -1,0 +1,5 @@
+---
+# Внутренние переменные роли
+_vector_service_name: "vector"
+_vector_log_dir: "/var/log/vector"
+_vector_data_dir: "/var/lib/vector"
