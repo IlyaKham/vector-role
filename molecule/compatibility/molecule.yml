@@ -1,0 +1,26 @@
+---
+driver:
+  name: podman
+
+platforms:
+  - name: instance-ubuntu
+    image: geerlingguy/docker-ubuntu2204-ansible
+    privileged: true
+    command: /sbin/init
+    cgroupns_mode: host
+    volumes:
+      - /sys/fs/cgroup:/sys/fs/cgroup:rw
+
+provisioner:
+  name: ansible
+  playbooks:
+    converge: converge.yml
+    verify: verify.yml
+  inventory:
+    host_vars:
+      instance-ubuntu:
+        ansible_user: root
+        ansible_become: false
+
+verifier:
+  name: ansible

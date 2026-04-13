@@ -1,0 +1,28 @@
+---
+- name: Verify
+  hosts: all
+  become: true
+  tasks:
+    - name: Check if vector binary exists
+      ansible.builtin.stat:
+        path: /usr/local/bin/vector
+      register: vector_binary
+
+    - name: Assert vector binary exists
+      ansible.builtin.assert:
+        that:
+          - vector_binary.stat.exists
+          - vector_binary.stat.executable
+        msg: "Vector binary does not exist or is not executable"
+
+    - name: Validate vector configuration
+      ansible.builtin.command:
+        cmd: /usr/local/bin/vector validate --config-dir /etc/vector
+      register: validate_result
+      changed_when: false
+
+    - name: Assert vector configuration is valid
+      ansible.builtin.assert:
+        that:
+          - validate_result.rc == 0
+        msg: "Vector configuration is invalid"
