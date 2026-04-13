@@ -1,6 +1,6 @@
----
 galaxy_info:
   role_name: vector
+  namespace: ilyakham   
   author: IlyaKham
   description: Install and configure Vector observability pipeline
   license: MIT
@@ -13,4 +13,8 @@ galaxy_info:
         - "9"
   galaxy_tags:
     - vector
+    - observability
+    - logging
+    - monitoring
 
+dependencies: []

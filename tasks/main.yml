@@ -24,6 +24,13 @@
     url: "{{ vector_download_url }}"
     dest: "/tmp/vector-{{ vector_version }}.tar.gz"
     mode: "0644"
+    timeout: 60
+    force: false
+    validate_certs: true
+  register: vector_download
+  retries: 5
+  delay: 5
+  until: vector_download is succeeded
 
 - name: Extract Vector archive
   ansible.builtin.unarchive:
@@ -67,3 +74,4 @@
     state: started
     enabled: true
     daemon_reload: true
+  when: ansible_service_mgr == "systemd"

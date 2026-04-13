@@ -1,0 +1,30 @@
+driver:
+  name: docker
+
+platforms:
+  - name: instance-ubuntu
+    image: geerlingguy/docker-ubuntu2204-ansible
+    privileged: true
+    command: /sbin/init
+    cgroupns_mode: host
+    volumes:
+      - /sys/fs/cgroup:/sys/fs/cgroup:rw
+
+  - name: instance-oraclelinux
+    image: oraclelinux:8
+    privileged: true
+    command: /usr/sbin/init
+    cgroupns_mode: host
+    volumes:
+      - /sys/fs/cgroup:/sys/fs/cgroup:rw
+
+provisioner:
+  name: ansible
+  inventory:
+    host_vars:
+      instance:
+        ansible_user: root
+        ansible_become: false
+
+verifier:
+  name: ansible
